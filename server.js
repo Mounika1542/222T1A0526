@@ -4,10 +4,11 @@ const app = express();
 const shortid = require('shortid');
 
 let urlDatabase = {};
+// url which is store as database of an object 
 
 app.use(express.json());
 
-// Create shortened URL
+// creating the url of all 
 app.post('/shorturls', (req, res) => {
   const originalUrl = req.body.originalUrl;
   const shortUrlCode = shortid.generate();
@@ -22,7 +23,7 @@ app.post('/shorturls', (req, res) => {
   });
 });
 
-// Get original URL and increment clicks
+// response in foramt of  original URL and increment clicks
 app.get('/:shortUrlCode', (req, res) => {
   const shortUrlCode = req.params.shortUrlCode;
   if (urlDatabase[shortUrlCode]) {
@@ -33,14 +34,14 @@ app.get('/:shortUrlCode', (req, res) => {
   }
 });
 
-// Get shortened URL details
+// total short links are store in the methods of all process 
 app.get('/shorturls/:shortUrlCode', (req, res) => {
   const shortUrlCode = req.params.shortUrlCode;
   if (urlDatabase[shortUrlCode]) {
     res.json({
       shortUrl: `http://localhost:3000/${shortUrlCode}`,
       originalUrl: urlDatabase[shortUrlCode].originalUrl,
-      clicks: urlDatabase[shortUrlCode].clicks,
+      clicks: urlDatabase[shortUrlCode].clicks, // here store the data how many time iu cilck the link so this is process
     });
   } else {
     res.status(404).json({ message: 'Short URL not found' });
