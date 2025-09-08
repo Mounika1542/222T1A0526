@@ -14,7 +14,7 @@ app.post('/shorturls', (req, res) => {
   const shortUrlCode = shortid.generate();
   urlDatabase[shortUrlCode] = {
     originalUrl,
-    clicks: 0,
+    clicks: 0, // taking the clicks in start with 0 to count frequtly 
   };
   res.json({
     shortUrl: `http://localhost:3000/${shortUrlCode}`,
@@ -44,26 +44,12 @@ app.get('/shorturls/:shortUrlCode', (req, res) => {
       clicks: urlDatabase[shortUrlCode].clicks, // here store the data how many time iu cilck the link so this is process
     });
   } else {
-    res.status(404).json({ message: 'Short URL not found' });
+    res.status(404).json({ message: 'Short URL not found' }); // here localhost is work or not in certain pages like res status 404 is not found 
   }
 });
-
-// Update shortened URL
-app.put('/shorturls/:shortUrlCode', (req, res) => {
-  const shortUrlCode = req.params.shortUrlCode;
-  const newOriginalUrl = req.body.originalUrl;
-  if (urlDatabase[shortUrlCode]) {
-    urlDatabase[shortUrlCode].originalUrl = newOriginalUrl;
-    res.json({
-      message: 'Short URL updated successfully',
-      newOriginalUrl,
-    });
-  } else {
-    res.status(404).json({ message: 'Short URL not found' });
-  }
-});
+ 
 
 const port = 3000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(port, () => { 
+  console.log(`Server listening on port ${port}`); // then port is local host which should be server readu based upon http req  and res in a body 
 });
